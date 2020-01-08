@@ -153,7 +153,7 @@ impl<'a, 'tcx> LateLintPass<'a, 'tcx> for DocMarkdown {
         let headers = check_attrs(cx, &self.valid_idents, &item.attrs);
         match item.kind {
             hir::ItemKind::Fn(ref sig, ..) => {
-                if !in_external_macro(cx.tcx.sess, item.span) {
+                if item.ident.name != sym!(main) && !in_external_macro(cx.tcx.sess, item.span) {
                     lint_for_missing_headers(cx, item.hir_id, item.span, sig, headers);
                 }
             },
